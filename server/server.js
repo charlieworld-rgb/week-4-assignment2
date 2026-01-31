@@ -40,7 +40,7 @@ app.post(`/guestbook`, async (req, res) => {
 
 
 
-app.listen(7890,() => {
+app.listen("https://week-4-assignment2-server.onrender.com",() => {
 
     console.log(`server live on http://localhost:7890`)
 })
