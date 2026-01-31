@@ -1,4 +1,4 @@
-import express, { json, request, response } from "express"
+import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import pg from "pg"
@@ -10,7 +10,6 @@ app.use(express.json())
 dotenv.config()
 
 app.use(cors())
-
 
 const db = new pg.Pool({
     connectionString: process.env.DB_CONN
@@ -37,11 +36,7 @@ app.post(`/guestbook`, async (req, res) => {
     res.status(200).json({guestbook: "guest message"})
 })
 
-
-
-
-app.listen("http://localhost:7890",() => {
-
-    // console.log(`server live on http://localhost:7890`)
+app.listen(7890,() => {
+    console.log(`server live on http://localhost:7890`)
 })
 
