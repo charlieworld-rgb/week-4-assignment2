@@ -1,24 +1,48 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const form = document.getElementById("form");
+const display = document.getElementById("app");
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+async function fetchData() {
+  const response = await fetch(`http://localhost:7890/guestbook`)
+  const request = await response.json()
+  console.log(request);
+  return request;
+}
 
-setupCounter(document.querySelector('#counter'))
+async function displayNotes() {
+  const guestnote = await fetchData();
+
+  guestnote.forEach((guestnote) => {
+    const div = document.createElement("div");
+    const guestname = document.createElement("p");
+    const guestWords = document.createElement("p");
+
+    guestname.textContent = guestnote.guest_book;
+    guestWords.textContent = guestnote.content;
+
+    display.appendChild(div);
+    div.appendChild(guestname)
+    div.append(guestWords)
+  });
+}
+
+displayNotes();
+
+async function handlesubmit(e) {
+  e.preventDefault();
+
+  const formdata = new FormData(form);
+  const guestDATA = Object.fromEntries(formdata);
+  const guestDATAJSON = JSON.stringify(guestDATA);
+
+  const request = await fetch(`http://localhost:7890/guestbook`, {
+    headers: {
+      "content-type": "application/json",
+    },
+    method: "POST",
+    body: guestDATAJSON,
+  });
+
+  window.location.reload();
+}
+
+form.addEventListener("submit", handlesubmit);
