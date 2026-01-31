@@ -2,7 +2,7 @@ const form = document.getElementById("form");
 const display = document.getElementById("app");
 
 async function fetchData() {
-  const response = await fetch(`https://week-4-assignment2-server.onrender.com`)
+  const response = await fetch(`https://week-4-assignment2-server.onrender.com/guestbook`)
   const request = await response.json()
   console.log(request);
   return request;
@@ -34,7 +34,7 @@ async function handlesubmit(e) {
   const guestDATA = Object.fromEntries(formdata);
   const guestDATAJSON = JSON.stringify(guestDATA);
 
-  const request = await fetch(`https://week-4-assignment2-server.onrender.com`, {
+  const request = await fetch(`https://week-4-assignment2-server.onrender.com/guestbook`, {
     headers: {
       "content-type": "application/json",
     },
